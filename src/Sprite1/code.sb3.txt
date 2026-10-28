@@ -1,0 +1,76 @@
+/‾‾‾‾‾‾‾‾‾‾‾‾\
+When green flag clicked:
+set [bugfixed1] to (0)
+set [bugfixed2] to (0)
+set [Paused] to ("not in play")
+show
+glide (1) sec to x: (0) y: (0)
+set [adminallowed] to (0)
+set [cash] to (00
+if <[admins] contains (username)> then
+  set [adminallowed] to (1)
+end
+broadcast (message1)
+
+/‾‾‾‾‾‾‾‾‾‾‾‾‾\
+When I receive [message1]:
+broadcast (message4)
+point in direction (-45)
+forever
+  if <<touching (Sprite2)> and <touching color (82,42,63)>> then
+    broadcast (message3)
+    change [cash] by (10)
+    broadcast (message2)
+  else
+    if <touching (Sprite2)> then
+      change [cash] by 1
+      broadcast (message2)
+    else
+      broadcast message2
+    end
+  end
+end
+
+/‾‾‾‾‾‾‾‾‾‾‾‾‾\
+when i receive [message2]:
+if <(Pause) = ("in Play")> then
+  hide
+  stop [this script]
+else
+  show
+  move (5) steps
+  if on edge, bounce
+  broadcast (message5)
+end
+
+/‾‾‾‾‾‾‾‾‾‾‾‾‾\
+When i recieve [message5]:
+* fix double-cash bug
+
+/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\
+define "fix double-cash bug":
+if <(bugfixed1) = (0)> then
+  wait until <(cash) = (2)>
+  change [cash] by (-1)
+  set [bugfixed1] to (1)
+end
+if <(bugfixed2) = (0)> then
+  wait until <(cash) = (3)>
+  change [cash] by (-1)
+  set [bugfixed2] to (1)
+end
+
+/‾‾‾‾‾‾‾‾‾‾‾‾‾\
+When I start as a clone:
+glide (1) sec to (random position)
+point in direction (-45)
+* loop
+
+/‾‾‾‾‾‾‾‾‾‾‾‾\
+define "loop":
+forever
+  if <(Pause) = ("in Play")> then
+    hide
+  else
+    show
+# TODO: FINISH THIS
